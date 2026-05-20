@@ -1,2 +1,1 @@
-id: 1; nome: saulo; senha: 12345; 
-id: 2; nome: carlos; senha: 67890;
+"nome": "Idinaldo", "senha": "123adas";
