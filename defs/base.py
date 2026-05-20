@@ -38,9 +38,8 @@ def login():
     senha = input("Digite sua senha: ")
 
     with open("database/users.txt", "r") as file:
-        for line in file:
-            if f"\"nome\": \"{nome}\", \"senha\": \"{senha}\"" in line:
-                print("Login bem-sucedido!")
-                return True
+        if f"\"nome\": \"{nome}\", \"senha\": \"{senha}\"" in file.read():
+            print("Login bem-sucedido!")
+            return True
     print("Verifique suas credenciais.")
     return False
