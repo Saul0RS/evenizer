@@ -1,28 +1,39 @@
 from datetime import datetime
-from utils import show_options, show_title
+from defs.utils import show_options, show_title
 
 def add_event(email):
     show_title("Novo Evento")
-    nome = input("Digite o nome do evento: ")
-    tipo = show_options(["Aniversário", "Casamento", "Reunião", "Formatura", "Festa de empresa", "Outro"])
+    event = {}
+    event["name"] = input("Digite o nome do evento: ")
+    event["type"] = show_options(["Aniversário", "Casamento", "Reunião", "Outro"])
 
     while True:
         try:
-            data = input("Digite a data do evento (Ex: 09/12/2006): ")
-            datetime.strptime(data, "%d/%m/%Y")
-        except Exception as e:
-            print(f"Data inválida. Tente novamente: {e}")
-            continue
+            event["date"] = input("Digite a data do evento (Ex: 09/12/2006): ")
+        except:
+            print(f"Data inválida. Tente novamente.")
         break
 
-    local = input("Digite o local do evento: ") 
-    orçamento = float(input("Digite o orçamento do evento: "))
+    event["location"] = input("Digite o local do evento: ")
+    event["budget"] = float(input("Digite o orçamento do evento: R$ "))
+    event["tasks"] = [
+        {"task_name": "fake_task", "status": "Pendente", "cost_brl": 10.23}
+    ]
+    print("Deseja adicionar tarefas ao evento agora? [S/N]")
+    while True:
+        opt = show_options(["Sim", "Não"])
+        if opt == 1:
+            print("Função de adicionar tarefas aqui")
+            break
+        elif opt == 2:
+            break
 
-    with open("database/events.txt", "a+") as file: # ponteiro do arquivo começa no final pq abriu como "a"    
+    event["owner_email"] = email
+    with open("database/events.txt", "a+") as file:  
         file.seek(0)
-        if f"\"nome\": \"{nome}\", \"data\": \"{data}\", \"local\": \"{local}\"" not in file.read(): # ler o arquivo e faz o ponteiro voltar para o final, para ai sim acrescentar a informação
-            file.write(f"\"nome\": \"{nome}\", \"tipo\": \"{tipo}\", \"data\": \"{data}\", \"local\": \"{local}\", \"orçamento\": \"{orçamento}\", \"emailuser\": \"{email}\"\n")
-            print("Evento cadastrado com sucesso !!!")                      
+        if str(event) not in file.read(): # ler o arquivo e faz o ponteiro voltar para o final, para ai sim acrescentar a informação
+            file.write(str(event) + "\n")
+            print(f"Evento '{event['name']}' cadastrado com sucesso.")                      
 
         else: 
-            print("O evento não pode ocorrer no mesmo lugar, ao mesmo tempo e no mesmo dia que outro evento !!! tente novamente !!!")
+            print("O evento não pode ocorrer no mesmo lugar, ao mesmo tempo e no mesmo dia que outro evento. Tente novamente.")
