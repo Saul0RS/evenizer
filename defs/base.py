@@ -1,7 +1,7 @@
 import os 
 from datetime import datetime
 import random
-from defs import teste
+from utils import clear
 
 def show_options(options):
 
@@ -19,7 +19,7 @@ def initial_menu():
     while True:
         opcao = show_options(["Cadastrar usuario", "Entrar com usuario", "Sair do programa"])
         
-        os.system("cls")
+        clear()
         if opcao == 1:
             add_user()
             continue
@@ -37,7 +37,7 @@ def menu_login(email):
     while True:
         opcao = show_options(["Cadastrar evento ou tarefa", "Visualizar", "Modificar", "Excluir", "Voltar"])
         
-        os.system("cls")
+        clear()
         if opcao == 1:
             menu_cadastro(email)
             continue
@@ -57,10 +57,9 @@ def menu_cadastro(email):
     while True:
         opcao = show_options(["Cadastrar evento", "Cadastrar tarefa", "Voltar"])
         
-        os.system("cls")
+        clear()
         if opcao == 1:
             pk = add_event(email)
-            teste.add_tarefa(pk)
             continue
         elif opcao == 2:
             print("Colocar função de visualizar aqui !!!")
@@ -69,7 +68,7 @@ def menu_cadastro(email):
             break
 
 
-def add_user(): # aparentemente está tudo OK !!!
+def add_user():
     while True:
         email = input("Digite seu email: ")
 
@@ -79,7 +78,7 @@ def add_user(): # aparentemente está tudo OK !!!
                 if "@" in email:
                     nome = input("Digite seu nome: ")    
                     senha = input("Digite sua senha: ")
-                    os.system("cls")
+                    clear()
                     pergunta = input("Digite uma pergunta de segurança, para recuperação de senha posteriormente:\n--> ")
                     resposta = input("Digite a sua resposta para a pergunta: ")
 
