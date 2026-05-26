@@ -1,3 +1,1 @@
-"nome": "niver", "tipo": "1", "data": "09/12/2006", "local": "aqui", "orçamento": "0.0", "emailuser": "idinaldo@evenizer.com"
-"nome": "niver", "tipo": "1", "data": "09/12/2006", "local": "aqui", "orçamento": "0.0", "emailuser": "ior@evenizer.com"
-"nome": "niver", "tipo": "1", "data": "09/12/0001", "local": "aqui", "orçamento": "0.0", "emailuser": "ior@evenizer.com"
+{'name': 'he he (MJ)', 'type': 3, 'date': '01/01/0001', 'location': 'ali', 'budget': 123.12, 'tasks': [{'task_name': 'fake_task', 'status': 'Pendente', 'cost_brl': 10.23}], 'owner_email': 'ior@evenizer.com'}
