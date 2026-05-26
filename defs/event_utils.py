@@ -16,9 +16,7 @@ def add_event(email):
 
     event["location"] = input("Digite o local do evento: ")
     event["budget"] = float(input("Digite o orçamento do evento: R$ "))
-    event["tasks"] = [
-        {"task_name": "fake_task", "status": "Pendente", "cost_brl": 10.23}
-    ]
+    event["tasks"] = []
     print("Deseja adicionar tarefas ao evento agora? [S/N]")
     while True:
         opt = show_options(["Sim", "Não"])
