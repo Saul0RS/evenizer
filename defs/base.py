@@ -1,6 +1,6 @@
 from defs.user_utils import *
 from defs.event_utils import *
-from utils import *
+from defs.utils import *
 
 def initial_menu():
         show_title("Bem-vindo ao Evenizer")
