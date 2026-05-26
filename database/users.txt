@@ -1,2 +1,2 @@
-"nome": "Idinaldo", "senha": "123adas", "question": "qual o nome do seu cachorro?", "answer": "gato";
-"nome": "Saulo", "senha": "blabla123", "question": "qual o nome do seu gato?", "answer": "cachorro";
+"nome": "saulo", "email": "saulo123@gmail.com", "senha": "123456", "pergunta:": "qual o nome do meu cachorro?", "resposta": "gato"
+"nome": "idinaldo", "email": "idinaldo123@hotmail.com", "senha": "7890", "pergunta:": "qual o nome do seu gato?", "resposta": "cachorro"
