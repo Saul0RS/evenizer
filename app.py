@@ -1,4 +1,5 @@
 from defs import base
 
-base.initial_menu()
+while True:
+    base.initial_menu()
         
