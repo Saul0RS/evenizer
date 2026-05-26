@@ -1,4 +1,7 @@
 import os 
+from datetime import datetime
+import random
+from defs import teste
 
 def show_options(options):
 
@@ -13,65 +16,125 @@ def show_options(options):
     return opt
 
 def initial_menu():
+    while True:
+        opcao = show_options(["Cadastrar usuario", "Entrar com usuario", "Sair do programa"])
+        
+        os.system("cls")
+        if opcao == 1:
+            add_user()
+            continue
+        elif opcao == 2:
+            email = login()
+            if email:
+                menu_login(email)
+            else:
+                continue
+        elif opcao == 3:
+            break
 
-    opcao = show_options(["Cadastrar", "Entrar", "Visualizar Eventos", "Sair"])
-    
-    os.system("cls")
-    if opcao == 1:
-        add_user()
-    elif opcao == 2:
-        login()
-    elif opcao == 3:
-        print("Visualizar Eventos")
-    elif opcao == 4:
-        print("Sair")
-    
 
-def add_user():
+def menu_login(email):
+    while True:
+        opcao = show_options(["Cadastrar evento ou tarefa", "Visualizar", "Modificar", "Excluir", "Voltar"])
+        
+        os.system("cls")
+        if opcao == 1:
+            menu_cadastro(email)
+            continue
+        elif opcao == 2:
+            print("Colocar função de visualizar aqui !!!")
+            continue
+        elif opcao == 3:
+            print("Colocar função de modificar aqui !!!")
+            continue
+        elif opcao == 4:
+            print("Colocar função de excluir aqui !!!")
+        elif opcao == 5:
+            break
 
-    nome = input("Digite seu nome: ")
-    senha = input("Digite sua senha: ")
-    #Colocar perguntas e respostas de segurança aqui para recuperação de senha no login()  
-    with open("database/users.txt", "a", encoding="utf-8") as file:
-        file.write(f"\"nome\": \"{nome}\", \"senha\": \"{senha}\"\n")
+            
+def menu_cadastro(email):
+    while True:
+        opcao = show_options(["Cadastrar evento", "Cadastrar tarefa", "Voltar"])
+        
+        os.system("cls")
+        if opcao == 1:
+            pk = add_event(email)
+            teste.add_tarefa(pk)
+            continue
+        elif opcao == 2:
+            print("Colocar função de visualizar aqui !!!")
+            continue
+        elif opcao == 3:
+            break
+
+
+def add_user(): # aparentemente está tudo OK !!!
+    while True:
+        email = input("Digite seu email: ")
+
+        with open("database/users.txt", "a+") as file: # ponteiro do arquivo começa no final pq abriu como "a"
+            file.seek(0)  # coloca ponteiro no inicio para ler o arquivo
+            if f"\"email\": \"{email}\"" not in file.read(): # ler o arquivo e faz o ponteiro voltar para o final, para ai sim acrescentar a informação
+                if "@" in email:
+                    nome = input("Digite seu nome: ")    
+                    senha = input("Digite sua senha: ")
+                    os.system("cls")
+                    pergunta = input("Digite uma pergunta de segurança, para recuperação de senha posteriormente:\n--> ")
+                    resposta = input("Digite a sua resposta para a pergunta: ")
+
+                    file.write(f"\"nome\": \"{nome}\", \"email\": \"{email}\", \"senha\": \"{senha}\", \"pergunta:\": \"{pergunta}\", \"resposta\": \"{resposta}\"\n")
+                    print("Usuario adicionado com sucesso !!!")
+                    break
+
+                else:
+                    print("Esse email não é valido !!! tente novamente !!!")
+
+            else:
+                print("Esse email já existe !!! tente um diferente !!!")
+                continue
 
 def login():
-    #while True
-    nome = input("Digite seu nome: ")
+
+    email = input("Digite o seu email: ")
     senha = input("Digite sua senha: ")
-    with open("database/users.txt", "r", encoding="utf-8") as file:
-        if f"\"nome\": \"{nome}\", \"senha\": \"{senha}\"" in file.read():
+
+    with open("database/users.txt", "r") as file:
+        if f"\"email\": \"{email}\", \"senha\": \"{senha}\"" in file.read():
             print("Login bem-sucedido!")
-            return True
-        else: 
-            print("Login incorreto !!!")
-            n = input("Deseja recuperar sua senha? Sim ou Não?").upper()
-            os.system("cls")
-            if n == 'S' or n == "SIM":
-                esqueci_senha()
-                os.system("cls")
-                print("Tente o login novamente com a nova senha !!!")
-                #continue pro while True aqui
-            elif n == 'N' or n == "NÃO" or n == "NAO":
-                return False
-            else:
-                os.system("cls")
-                print("Tente o login novamente novamente !!!")
-                #continue pro while True aqui
+            return email
+        else:
+            print("Login incorreto tente novamente !!!")
+            return False
 
 
+def add_event(email):
+    while True:
+        nome = input("Digite o nome do evento: ")
+        tipo = input("Digite o tipo de evento: ")
 
-def esqueci_senha():
-    nome = input("Digite seu nome: ").capitalize()
-    with open("database/users.txt", "r", encoding="utf-8") as file:
-        for linha in file:
-            if f"\"nome\": \"{nome}\"" in linha:
-                inicio = linha.find('"question":')
-                fim = linha.find(",", inicio)
-                pergunta = linha[inicio:fim]
-                print(pergunta)
-                return pergunta
-            else:
-                return print("n deu certo !!!")
-                
-            
+        while True:
+            data = input("Digite a data do evento (Ex: 09/12/2006): ")
+            try:
+                datetime.strptime(data, "%d/%m/%y")
+            except:
+                print("Data em formato invalido !!! tente novamente")
+                continue
+            break
+
+        local = input("Digite o local do evento: ") 
+        orçamento = float(input("Digite o orçamento do evento: "))
+
+        with open("database/events.txt", "a+") as file: # ponteiro do arquivo começa no final pq abriu como "a"    
+            file.seek(0)
+            if f"\"nome\": \"{nome}\", \"data\": \"{data}\", \"local\": \"{local}\"" not in file.read(): # ler o arquivo e faz o ponteiro voltar para o final, para ai sim acrescentar a informação
+                file.write(f"\"nome\": \"{nome}\", \"tipo\": \"{tipo}\", \"data\": \"{data}\", \"local\": \"{local}\", \"orçamento\": \"{orçamento}\", \"emailuser\": \"{email}\"\n")
+                print("Evento cadastrado com sucesso !!!")                      
+                break
+
+            else: 
+                print("O evento não pode ocorrer no mesmo lugar, ao mesmo tempo e no mesmo dia que outro evento !!! tente novamente !!!")
+                continue
+        
+
+
