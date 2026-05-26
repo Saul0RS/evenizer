@@ -1,45 +1,49 @@
-
-def show_options(options):
-
-    limit = range(1, len(options) + 1)
-    for i, option in enumerate(options):
-        print(f"{i + 1} - {option}")
-    opt = int(input("Digite a opcao: "))
-
-    while opt not in limit:
-        print("Opcao invalida!")
-        opt = int(input("Digite a opcao: "))
-    return opt
+from defs.user_utils import *
+from defs.event_utils import *
+from utils import *
 
 def initial_menu():
+        show_title("Bem-vindo ao Evenizer")
+        opcao = show_options(["Criar Conta", "Entrar", "Sair"])
+        
+        clear()
+        if opcao == 1:
+            add_user()
+        
+        elif opcao == 2:
+            email = login()
+            if email:
+                while True:
+                    events_menu(email)
+        
+        elif opcao == 3:
+            quit()
 
-    opcao = show_options(["Cadastrar", "Entrar", "Visualizar Eventos", "Sair"])
-    if opcao == 1:
-        add_user()
-    elif opcao == 2:
-        login()
-    elif opcao == 3:
-        print("Visualizar Eventos")
-    elif opcao == 4:
-        print("Sair")
-    
+def events_menu(email):
+        show_title("Eventos")
+        opcao = show_options(["Novo Evento", "Meus Eventos", "Sair"])
+        
+        clear()
+        if opcao == 1:
+            add_event(email)
+        
+        elif opcao == 2:
+            print("Mostrar eventos do usuário como um menu aqui. A última opção do menu deve ser voltar para o menu anterior.")
+        
+        elif opcao == 3:
+            quit()
 
-def add_user():
-
-    nome = input("Digite seu nome: ")
-    senha = input("Digite sua senha: ")
-
-    with open("database/users.txt", "a") as file:
-        file.write(f"\"nome\": \"{nome}\", \"senha\": \"{senha}\"\n")
-
-def login():
-
-    nome = input("Digite seu nome: ")
-    senha = input("Digite sua senha: ")
-
-    with open("database/users.txt", "r") as file:
-        if f"\"nome\": \"{nome}\", \"senha\": \"{senha}\"" in file.read():
-            print("Login bem-sucedido!")
-            return True
-    print("Verifique suas credenciais.")
-    return False
+            
+def menu_cadastro(email):
+    while True:
+        opcao = show_options(["Cadastrar evento", "Cadastrar tarefa", "Voltar"])
+        
+        clear()
+        if opcao == 1:
+            pk = add_event(email)
+            continue
+        elif opcao == 2:
+            print("Colocar função de visualizar aqui !!!")
+            continue
+        elif opcao == 3:
+            break
