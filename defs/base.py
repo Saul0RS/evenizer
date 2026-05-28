@@ -21,29 +21,20 @@ def initial_menu():
 
 def events_menu(email):
         show_title("Eventos")
-        opcao = show_options(["Novo Evento", "Meus Eventos", "Sair"])
+        opcao = show_options(["Novo Evento", "Nova Tarefa", "Meus Eventos", "Sair"])
         
         clear()
         if opcao == 1:
             add_event(email)
         
         elif opcao == 2:
+            add_tarefa(email)
+
+        elif opcao == 3:
             print("Mostrar eventos do usuário como um menu aqui. A última opção do menu deve ser voltar para o menu anterior.")
         
-        elif opcao == 3:
+        elif opcao == 4:
             quit()
 
-            
-def menu_cadastro(email):
-    while True:
-        opcao = show_options(["Cadastrar evento", "Cadastrar tarefa", "Voltar"])
-        
-        clear()
-        if opcao == 1:
-            pk = add_event(email)
-            continue
-        elif opcao == 2:
-            print("Colocar função de visualizar aqui !!!")
-            continue
-        elif opcao == 3:
-            break
+
+

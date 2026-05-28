@@ -1,1 +1,1 @@
-{'name': 'he he (MJ)', 'type': 3, 'date': '01/01/0001', 'location': 'ali', 'budget': 123.12, 'tasks': [{'task_name': 'fake_task', 'status': 'Pendente', 'cost_brl': 10.23}], 'owner_email': 'ior@evenizer.com'}
+1, osdjoisd, 2, 09/12/2006, aosijda, 22828.0, srs6@cesar.school

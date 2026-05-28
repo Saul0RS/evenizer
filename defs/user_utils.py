@@ -10,11 +10,11 @@ def add_user():
     with open("database/users.txt", "a+") as file:
         # returns cursor to the beginning of the file
         file.seek(0)
-        if f"\"email\": \"{email}\"" in file.read():
+        if email in file.read():
             print("Por favor, verifique os dados e tente novamente.")
             return 1
         
-        file.write(f"{{\"nome\": \"{name}\", \"email\": \"{email}\", \"senha\": \"{password}\"}}\n")
+        file.write(f"{name}, {email}, {password}\n")
         print("Usuário cadastrado com sucesso!")
         return 0
 
@@ -25,7 +25,7 @@ def login():
     senha = input("Digite sua senha: ")
 
     with open("database/users.txt", "r") as file:
-        if f"\"email\": \"{email}\", \"senha\": \"{senha}\"" in file.read():
+        if f"{email}, {senha}" in file.read():
             print("Login bem-sucedido!")
             return email
         else:
@@ -37,7 +37,7 @@ def login():
 def find_me(email):
     with open("database/users.txt", "r") as file:
         for line in file:
-            if f"\"email\": \"{email}\"" in line:
+            if f"{email}" in line:
                 return line
 
 
@@ -52,8 +52,8 @@ def update_user(email):
 
     with open("database/users.txt", "w") as file:
         for line in lines:
-            if f"\"email\": \"{email}\"" in line:
-                file.write(f"{{\"nome\": \"{name}\", \"email\": \"{email}\", \"senha\": \"{password}\"}}\n")
+            if f"{email}" in line:
+                file.write(f"{name}, {email}, {password}\n")
             else:
                 file.write(line)
 
@@ -65,5 +65,5 @@ def delete_user(email):
 
     with open("database/users.txt", "w") as file:
         for line in lines:
-            if f"\"email\": \"{email}\"" not in line:
+            if f"{email}" not in line:
                 file.write(line)
