@@ -13,10 +13,12 @@ def add_event(email):
         type = show_options(["Aniversário", "Casamento", "Reunião", "Outro"])
 
         while True:
+            data = input("Digite a data do evento (Ex: 09/12/2006): ")
             try:
-                date = input("Digite a data do evento (Ex: 09/12/2006): ")
+                datetime.strptime(data, "%d/%m/%y")
             except:
-                print(f"Data inválida. Tente novamente.")
+                print("Data em formato invalido !!! tente novamente")
+                continue
             break
 
         location = input("Digite o local do evento: ")
@@ -25,15 +27,15 @@ def add_event(email):
         owner_email = email
 
         file.seek(0)
-        if f"{id}, {name}, {type}, {date}, {location}, {budget}, {owner_email}\n" not in file.read():
-            file.write(f"{id}, {name}, {type}, {date}, {location}, {budget}, {owner_email}\n")
+        if f"{id}, {name}, {type}, {data}, {location}, {budget}, {owner_email}\n" not in file.read():
+            file.write(f"{id}, {name}, {type}, {data}, {location}, {budget}, {owner_email}\n")
             print(f"Evento {name} cadastrado com sucesso.")                      
 
         else:   
             print("Não pode criar eventos iguais, tente novamente.")
 
 
-def add_tarefa(email):
+def list_event(email):
     show_title("Listagem de eventos")
     with open("database/events.txt", "a+") as file:
         file.seek(0)
@@ -46,23 +48,36 @@ def add_tarefa(email):
                 
         verificar = []
         for i in matriz:
-            print(f"{i[0]} - {i[1]}, {i[2]}, {i[3]}")
+            print(f"{i[0]} - {i[1]}, {i[2]}, {i[3]}, {i[4]}")
             verificar.append(i[0])
+        input("Digite algo para continuar")
+        return verificar
+        
 
-        while True:
-            opcao = int(input("Digite o valor do evento que voce deseja criar a tarefa: "))
-            if str(opcao) in verificar:
-                id_event = opcao
-                break
-            else:
-                print("Opção incorreta")
+def add_tarefa(id):
+    while True:
+        opcao = int(input("Digite o valor do evento que voce deseja criar a tarefa: "))
+        if str(opcao) in id:
+            id_event = opcao
+            break
+        else:
+            print("Opção incorreta")
 
-        show_title("Novo tarefa")  
+    show_title("Novo tarefa")  
 
     with open("database/activities.txt", "a+") as file:
+        file.seek(0)
+        v = file.read()
+        id_tarefa = len(v.splitlines()) + 1
         
         nome = input("Digite o nome da tarefa: ")
         custo = float(input("Digite o custo do evento: "))
              
-        file.write(f"{nome}, {custo}, {id_event}\n")
+        file.write(f"{id_tarefa}, {nome}, {custo}, {id_event}\n")
         print(f"Tarefa {nome} cadastrada com sucesso.")
+
+
+def delete_event():
+    list_event()
+    with open ("database/events.txt", "a+") as file:
+        file

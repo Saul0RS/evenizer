@@ -1,1 +1,2 @@
 1, osdjoisd, 2, 09/12/2006, aosijda, 22828.0, srs6@cesar.school
+2, evento 2, 4, 10/11/2025, olinda, 9000.0, srs6@cesar.school

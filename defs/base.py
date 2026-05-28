@@ -28,12 +28,15 @@ def events_menu(email):
             add_event(email)
         
         elif opcao == 2:
-            add_tarefa(email)
+            id = list_event(email)
+            add_tarefa(id)
 
         elif opcao == 3:
-            print("Mostrar eventos do usuário como um menu aqui. A última opção do menu deve ser voltar para o menu anterior.")
+            list_event(email)
         
         elif opcao == 4:
+            delete_event()
+        elif opcao == 5:
             quit()
 
 
