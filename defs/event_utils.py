@@ -52,16 +52,17 @@ def list_event(email):
             verificar.append(i[0])
         input("Digite algo para continuar")
         return verificar
-        
+    
 
 def add_tarefa(id):
     while True:
-        opcao = int(input("Digite o valor do evento que voce deseja criar a tarefa: "))
-        if str(opcao) in id:
+        opcao = input("Digite o valor do evento que voce deseja criar a tarefa: ")
+        if opcao in id:
             id_event = opcao
             break
         else:
             print("Opção incorreta")
+            continue
 
     show_title("Novo tarefa")  
 
@@ -76,8 +77,3 @@ def add_tarefa(id):
         file.write(f"{id_tarefa}, {nome}, {custo}, {id_event}\n")
         print(f"Tarefa {nome} cadastrada com sucesso.")
 
-
-def delete_event():
-    list_event()
-    with open ("database/events.txt", "a+") as file:
-        file
