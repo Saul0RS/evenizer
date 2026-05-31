@@ -1,7 +1,7 @@
 from datetime import datetime
 from defs.utils import show_options, show_title
 
-def add_event(email):
+def add_event(email, valueError=None):
     show_title("Novo Evento")
 
     with open("database/events.txt", "a+") as file:  
@@ -13,13 +13,13 @@ def add_event(email):
         type = show_options(["Aniversário", "Casamento", "Reunião", "Outro"])
 
         while True:
-            data = input("Digite a data do evento (Ex: 09/12/2006): ")
+            data = input("Digite a data do evento (Ex: 09/12/2006): ").strip()
             try:
-                datetime.strptime(data, "%d/%m/%y")
-            except:
+                datetime.strptime(data, "%d/%m/%Y")
+                break
+            except valueError:
                 print("Data em formato invalido !!! tente novamente")
                 continue
-            break
 
         location = input("Digite o local do evento: ")
         budget = float(input("Digite o orçamento do evento: R$ "))
@@ -45,12 +45,12 @@ def list_event(email):
             if email in line:
                 lista = line.split(",")
                 matriz.append(lista)
-                
+
         verificar = []
         for i in matriz:
             print(f"{i[0]} - {i[1]}, {i[2]}, {i[3]}, {i[4]}")
             verificar.append(i[0])
-        input("Digite algo para continuar")
+        input("Pressione ENTER para continuar... ")
         return verificar
     
 
@@ -77,3 +77,22 @@ def add_tarefa(id):
         file.write(f"{id_tarefa}, {nome}, {custo}, {id_event}\n")
         print(f"Tarefa {nome} cadastrada com sucesso.")
 
+def delete_event(email):
+
+    id = list_event(email)
+    while True:
+        opcao = input('Digite o id do evento que deseja excluir: ')
+        if opcao in id:
+            break
+        else:
+            print('opçao invalida')
+    with open('database/events.txt', 'r') as file:
+        linhas = file.readlines()
+    novas_linas = []
+    for linha in linhas:
+        dados = linha.split(",")
+        if dados[0].strip() != opcao:
+            novas_linas.append(linha)
+    with open('database/events.txt', 'w') as file:
+        file.writelines(novas_linas)
+    print('Evento excluido com sucesso')
