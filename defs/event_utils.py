@@ -1,14 +1,12 @@
 from datetime import datetime
-from defs.utils import show_options, show_title
+from defs.utils import show_options, show_title, gera_id
 
-def add_event(email, valueError=None):
+
+def add_event(email):
     show_title("Novo Evento")
 
     with open("database/events.txt", "a+") as file:  
-        file.seek(0)
-        v = file.read()
-        id = len(v.splitlines()) + 1
-
+        pkevent = gera_id(file)
         name = input("Digite o nome do evento: ")
         type = show_options(["Aniversário", "Casamento", "Reunião", "Outro"])
 
@@ -16,8 +14,8 @@ def add_event(email, valueError=None):
             data = input("Digite a data do evento (Ex: 09/12/2006): ").strip()
             try:
                 datetime.strptime(data, "%d/%m/%Y")
-                break
-            except valueError:
+                break  
+            except ValueError:
                 print("Data em formato invalido !!! tente novamente")
                 continue
 
@@ -27,8 +25,8 @@ def add_event(email, valueError=None):
         owner_email = email
 
         file.seek(0)
-        if f"{id}, {name}, {type}, {data}, {location}, {budget}, {owner_email}\n" not in file.read():
-            file.write(f"{id}, {name}, {type}, {data}, {location}, {budget}, {owner_email}\n")
+        if f"{pkevent}, {name}, {type}, {data}, {location}, {budget}, {owner_email}\n" not in file.read():
+            file.write(f"{pkevent}, {name}, {type}, {data}, {location}, {budget}, {owner_email}\n")
             print(f"Evento {name} cadastrado com sucesso.")                      
 
         else:   
@@ -43,7 +41,7 @@ def list_event(email):
         for line in file:
             lista = []
             if email in line:
-                lista = line.split(",")
+                lista = line.split(",") 
                 matriz.append(lista)
 
         verificar = []
@@ -67,14 +65,12 @@ def add_tarefa(id):
     show_title("Novo tarefa")  
 
     with open("database/activities.txt", "a+") as file:
-        file.seek(0)
-        v = file.read()
-        id_tarefa = len(v.splitlines()) + 1
+        pktask = gera_id(file)
         
         nome = input("Digite o nome da tarefa: ")
         custo = float(input("Digite o custo do evento: "))
              
-        file.write(f"{id_tarefa}, {nome}, {custo}, {id_event}\n")
+        file.write(f"{pktask}, {nome}, {custo}, {id_event}\n")
         print(f"Tarefa {nome} cadastrada com sucesso.")
 
 def delete_event(email):

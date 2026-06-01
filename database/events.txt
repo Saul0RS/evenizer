@@ -1,2 +1,3 @@
-1, osdjoisd, 2, 09/12/2006, aosijda, 22828.0, srs6@cesar.school
-2, evento 2, 4, 10/11/2025, olinda, 9000.0, srs6@cesar.school
+394686, evento_teste3, 3, 24/06/1998, caruaru, 4000.0, srs6@cesar.school
+368933, evento_teste5, 4, 07/09/1222, roma, 6000.0, srs6@cesar.school
+957145, evento_teste6, 1, 05/06/2005, italia, 7000.0, srs6@cesar.school
