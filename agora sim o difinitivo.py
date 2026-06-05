@@ -58,6 +58,13 @@ def update_event(email):
     novo_local = input(f"Local atual: {evento[4]}\nNovo local: ").strip()
     if novo_local:
         evento[4] = novo_local
+        
+    novo_orcamento = input(f"Orçamento atual: R$ {evento[5]}\nNovo orçamento: R$ ").strip()
+    if novo_orcamento:
+        try:
+            evento[5] = float(novo_orcamento)
+        except ValueError:
+            print("Valor inválido. ainda vai tar com mesmo valor")
     try:
         colunas = open("database/events.txt", "w", encoding="utf-8")
         for ev in eventos:
