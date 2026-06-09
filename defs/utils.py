@@ -26,15 +26,18 @@ def show_title(title, size=30):
 
 
 def show_options(options):
-
-    limit = range(1, len(options) + 1)
-    for i, option in enumerate(options):
-        print(f"{i + 1} - {option}")
-    opt = int(input("Digite a opcao: "))
-
-    while opt not in limit:
-        print("Opcao invalida!")
+    try:
+        limit = range(1, len(options) + 1)
+        for i, option in enumerate(options):
+            print(f"{i + 1} - {option}")
         opt = int(input("Digite a opcao: "))
+
+        while opt not in limit:
+            print("Opcao invalida!")
+            opt = int(input("Digite a opcao: "))
+    except ValueError:
+        show_error()
+        return 0
     return opt
 
 
@@ -50,3 +53,7 @@ def gera_id(file):
         pk = str(random.randint(1, 10**6))
         file.seek(0) # coloca ponteiro no inicio para ler o arquivo
     return pk
+
+def show_error():
+    print("Valor invalido, tente novamente")
+    input("Pressione ENTER para continuar... ")

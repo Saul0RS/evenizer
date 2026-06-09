@@ -12,10 +12,12 @@ def add_user():
         file.seek(0)
         if email in file.read():
             print("Por favor, verifique os dados e tente novamente.")
+            input("Pressione ENTER para continuar... ")
             return 1
         
-        file.write(f"{name}, {email}, {password}\n")
+        file.write(f"{name},{email},{password}\n")
         print("Usuário cadastrado com sucesso!")
+        input("Pressione ENTER para continuar... ")
         return 0
 
 
@@ -25,11 +27,13 @@ def login():
     senha = input("Digite sua senha: ")
 
     with open("database/users.txt", "r") as file:
-        if f"{email}, {senha}" in file.read():
+        if f"{email},{senha}" in file.read():
             print("Login bem-sucedido!")
+            input("Pressione ENTER para continuar... ")
             return email
         else:
             print("Login incorreto tente novamente !!!")
+            input("Pressione ENTER para continuar... ")
             return False
 
 
@@ -53,7 +57,7 @@ def update_user(email):
     with open("database/users.txt", "w") as file:
         for line in lines:
             if f"{email}" in line:
-                file.write(f"{name}, {email}, {password}\n")
+                file.write(f"{name},{email},{password}\n")
             else:
                 file.write(line)
 
