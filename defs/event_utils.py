@@ -98,6 +98,35 @@ def delete_event(email):
     with open('database/events.txt', 'w') as file:
         file.writelines(novas_linas)
     print('Evento excluido com sucesso')
+
+def update_tafera():
+    id_tafera = input("Digite o id da tafera que deseja alterar: ")
+    with open('database/activities.txt', 'r') as file:
+        linhas = file.readlines()
+
+    alterou = False
+
+    for i,linha in enumerate(linhas):
+        dados = linha.split(",")
+        if dados[0].strip() == id_tafera:
+
+            print(f"Nome atual:{dados[2].strip()}")
+            novo_nome = input("Digite o novo nome: ")
+
+            print(f"Custo atual:{dados[2].strip()}")
+            novo_custo = input("Digite o custo: ")
+
+            if(novo_nome.strip() == dados[1].strip() and novo_custo.strip() == dados[2].strip()):
+                print("Nenhuma alterção foi realizada.")
+
+            else:
+                linhas[i] = f"{dados[0].strip()},{novo_nome},{novo_custo},{dados[3].strip()}\n"
+                alterou = True
+            break
+    if alterou:
+        with open('database/activities.txt', 'w') as file:
+            file.writelines(linhas)
+        print("tarefa alterada com sucesso")
     input("Pressione ENTER para continuar... ")
 
 
