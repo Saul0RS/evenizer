@@ -110,7 +110,7 @@ def update_tafera():
         dados = linha.split(",")
         if dados[0].strip() == id_tafera:
 
-            print(f"Nome atual:{dados[2].strip()}")
+            print(f"Nome atual:{dados[1].strip()}")
             novo_nome = input("Digite o novo nome: ")
 
             print(f"Custo atual:{dados[2].strip()}")
