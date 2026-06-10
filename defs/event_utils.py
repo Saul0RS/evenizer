@@ -99,7 +99,7 @@ def delete_event(email):
 
 def update_tafera():
     id_tafera = input("Digite o id da tafera que deseja alterar: ")
-    with open('databese/activities.txt', 'r') as file:
+    with open('database/activities.txt', 'r') as file:
         linhas = file.readlines()
 
     alterou = False
@@ -122,6 +122,6 @@ def update_tafera():
                 alterou = True
             break
     if alterou:
-        with open('databese/activities.txt', 'w') as file:
+        with open('database/activities.txt', 'w') as file:
             file.writelines(linhas)
         print("tarefa alterada com sucesso")
