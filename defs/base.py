@@ -21,25 +21,25 @@ def initial_menu():
 
 def events_menu(email):
         show_title("Eventos")
-        opcao = show_options(["Novo Evento", "Nova Tarefa", "Meus Eventos","Atualizar Evento", "Excluir Evento","Atualizar tarefa", "Excluir Tarefa", "Sair"])
+        opcao = show_options(["Novo Evento", "Meus Eventos", "Atualizar Evento", "Excluir Evento", "Nova Tarefa", "Atualizar tarefa", "Excluir Tarefa", "Gerenciar Usuário", "Sair"])
         
         clear()
         if opcao == 1:
             add_event(email)
         
         elif opcao == 2:
+            list_event(email)
+
+        elif opcao == 3:
+            update_event(email)
+        
+        elif opcao == 4:
+            delete_event(email)
+        
+        elif opcao == 5:
             id = list_event(email)
             add_tarefa(id)
 
-        elif opcao == 3:
-            list_event(email)
-
-        elif opcao == 4:
-            update_event(email)
-        
-        elif opcao == 5:
-            delete_event(email)
-        
         elif opcao == 6:
             update_tafera()
 
@@ -47,7 +47,28 @@ def events_menu(email):
             delete_atividade(email)
 
         elif opcao == 8:
+            gerencia_user(email)
+
+        elif opcao == 9:
             quit()
+
+
+def gerencia_user(email):
+        show_title("Gerenciar Conta")
+        opcao = show_options(["Atualizar Conta", "Excluir Conta", "Suporte", "Voltar"])
+
+        clear()
+        if opcao == 1:
+            update_user(email)
+
+        elif opcao == 2:
+            delete_user(email)
+
+        elif opcao == 3:
+            help()
+
+        elif opcao == 4:
+            return
 
 
 

@@ -74,3 +74,10 @@ def event_date_status(data_str):
 def show_error():
     print("Valor invalido, tente novamente")
     input("Pressione ENTER para continuar... ")
+
+def help():
+    show_title("SUPORTE")
+    print("WhatsApp: +55 99 99999-9999")
+    print("Email: suporte@evenizer.com")
+    print("Instagram: @evenizer")
+    input("Aperte ENTER para voltar...")
