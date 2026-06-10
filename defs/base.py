@@ -37,6 +37,8 @@ def events_menu(email):
         elif opcao == 4:
             delete_event(email)
         elif opcao == 5:
+            update_tafera()
+        elif opcao == 6:
             quit()
 
 
