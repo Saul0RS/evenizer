@@ -54,6 +54,23 @@ def gera_id(file):
         file.seek(0) # coloca ponteiro no inicio para ler o arquivo
     return pk
 
+
+def event_date_status(data_str):
+    try:
+        event_date = datetime.strptime(data_str, "%d/%m/%Y").date()
+    except ValueError:
+        return "Data inválida"
+
+    today = datetime.now().date()
+    delta = (event_date - today).days
+
+    if delta > 0:
+        return f"Faltam {delta} dias"
+    if delta == 0:
+        return "Hoje é o evento"
+    return f"Já se passaram {abs(delta)} dias"
+
+
 def show_error():
     print("Valor invalido, tente novamente")
     input("Pressione ENTER para continuar... ")
