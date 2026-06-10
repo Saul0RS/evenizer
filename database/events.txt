@@ -1,3 +1,4 @@
 394686,evento_teste3,3,24/06/1998,caruaru,4000.0,srs6@cesar.school
 368933,event_new,4,14/12/2444,aquele canto,1000.0,srs6@cesar.school
 957145,evento_teste6,1,05/06/2005,italia,7000.0,srs6@cesar.school
+603653,Teste,1,10/10/2030,aqui,9000.0,ior@evenizer.com

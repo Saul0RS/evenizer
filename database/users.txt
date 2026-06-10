@@ -1,2 +1,7 @@
 saulo,srs6@cesar.school,saulo123
 carlos,carlos@gmail.com,123
+Fulano da Silva,fs@example.com,fs123
+ze da manga,ze.da.manga@aaaah.com,aaaah.ze.da.manga
+Marcelo Arcoverd,marcelo.ar,senha123
+marcelo,marcelo@arco.verde,da123as
+Idinaldo,ior@evenizer.com,ior123

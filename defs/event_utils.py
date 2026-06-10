@@ -1,10 +1,15 @@
 from datetime import datetime
-from defs.utils import show_options, show_title, gera_id, show_error
+from defs.utils import show_options, show_title, gera_id, show_message
+from defs.file_utils import get_lines_by_filter, get_by_filter
 
 
-def add_event(email):
+EVENTS_FILE_PATH = "database/events.txt"
+ACTIVITIES_FILE_PATH = "database/activies.txt"
+
+
+def add_event(owner_email):
     show_title("Novo Evento")
-    with open("database/events.txt", "a+") as file:  
+    with open(EVENTS_FILE_PATH, "a+") as file:  
         pkevent = gera_id(file)
         name = input("Digite o nome do evento: ")
         try:
@@ -15,10 +20,8 @@ def add_event(email):
             budget = float(input("Digite o orçamento do evento: R$ "))
 
         except (ValueError, TypeError):
-            show_error()
+            show_message()
             return
-
-        owner_email = email
 
         file.seek(0)
         if f"{name},{type},{data},{location}" not in file.read():
@@ -31,144 +34,93 @@ def add_event(email):
             input("Pressione ENTER para continuar... ")
 
 
-def list_event(email):
-    show_title("Listagem de eventos")
-    with open("database/events.txt", "a+") as file:
-        file.seek(0)
-        matriz = []
-        for line in file:
-            lista = []
-            if email in line:
-                lista = line.split(",") 
-                matriz.append(lista)
+def list_events(email):
+    show_title("Meus Eventos")
+    events = get_lines_by_filter(EVENTS_FILE_PATH, email)
+    events_ids = [event.split(",")[0] for event in events]
 
-        verificar = []
-        for i in matriz:
-            print(f"{i[0]} - {i[1]}, {i[2]}, {i[3]}, {i[4]}")
-            verificar.append(i[0])
-        input("Pressione ENTER para continuar... ")
-        return verificar
-    
+    if len(events) > 0:
+        for event in events:
+            print(event.replace(",", ", "))
+        opt = show_options(["Editar Evento", "Excluir Evento", "Voltar"])
 
-def add_tarefa(id):
-    while True:  
-        opcao = input("Digite o valor do evento que voce deseja criar a tarefa: ")
-        if opcao in id:
-            id_event = opcao
-            break
+        if opt == 1:
+            event_id = input("Digite o ID do evento: ")
+                
+            while event_id not in events_ids:
+                show_message("ID inválido. Tente novamente.")
+                event_id = input("Digite o ID do evento: ")
+            update_event(event_id)
+        elif opt == 2:
+            delete_event(email)
+
         else:
-            print("Opção incorreta")
-            continue
-
-    show_title("Novo tarefa")  
-
-    with open("database/activities.txt", "a+") as file:
-       
-        pktask = gera_id(file)
-        
-        nome = input("Digite o nome da tarefa: ")
-        try:
-            custo = float(input("Digite o custo do evento: "))
-
-        except (ValueError, TypeError):
-            show_error()
             return
-        
-        file.write(f"{pktask},{nome},{custo},{id_event}\n")
-        print(f"Tarefa {nome} cadastrada com sucesso.")
-        input("Pressione ENTER para continuar... ")
+    else:
+        show_message("Você não tem eventos cadastrados.")
+
+
+def update_event(event_id):
+    
+    event = get_by_filter(EVENTS_FILE_PATH, event_id).split(",")
+    
+    print(f"ID: {event[0]} | Nome: {event[1]} | Data: {event[3]} | Local: {event[4]} | Orçamento: R$ {event[5]}")
+
+    while True:
+        opt = input("Deseja atualizar este evento? [S/N] ")
+        if opt not in "SN":
+            continue
+        elif opt == "N":
+            show_message("Evento não atualizado. Retornando para menu anterior.")
+            return
+        else:
+            break
+
+    print(f"Nome atual: {event[1]}")
+    novo_nome = input("Novo nome: ").strip()
+    if novo_nome:
+        event[1] = novo_nome
+
+    try:
+        print(f"Data atual: {event[3]}")
+        nova_data = input("Nova data (dd/mm/aaaa): ").strip()
+        if nova_data:
+            datetime.strptime(nova_data, "%d/%m/%Y")
+            event[3] = nova_data
+
+        print(f"Local atual: {event[4]}")
+        novo_local = input("Novo local: ").strip()
+        if novo_local:
+            event[4] = novo_local
+
+        print(f"Orçamento atual: R$ {event[5]}")
+        novo_orcamento = input("Novo orçamento: R$ ").strip()
+        if novo_orcamento:
+            event[5] = float(novo_orcamento)
+
+    except (ValueError, TypeError):
+        show_message()
+        return
+
+    show_message("Evento atualizado :O")
+
 
 def delete_event(email):
 
-    id = list_event(email)
+    id = list_events(email)
     while True:
         opcao = input('Digite o id do evento que deseja excluir: ')
         if opcao in id:
             break
         else:
             print('opçao invalida')
-    with open('database/events.txt', 'r') as file:
-        linhas = file.jreadlines()
+    with open(EVENTS_FILE_PATH, 'r') as file:
+        linhas = file.readlines()
     novas_linas = []
     for linha in linhas:
         dados = linha.split(",")
         if dados[0].strip() != opcao:
             novas_linas.append(linha)
-    with open('database/events.txt', 'w') as file:
+    with open(EVENTS_FILE_PATH, 'w') as file:
         file.writelines(novas_linas)
-    print('Evento excluido com sucesso')
-    input("Pressione ENTER para continuar... ")
-
-
-
-def update_event(email):
-    eventos = []
-    arq = open("database/events.txt" , "r", encoding="utf-8")
-    colunas = arq.readlines()
-    arq.close()
-        
-    for linhas in colunas:
-        if colunas:
-            separa = linhas.split(',')
-            id_evento = int(separa[0])
-            nome = separa[1]
-            tipo = int(separa[2]) 
-            data = separa[3]
-            local = separa[4]
-            orcamento = float(separa[5]) 
-            email_dono = separa[6].strip()
-            eventos.append([id_evento, nome, tipo, data, local, orcamento, email_dono])
-
-    if not eventos:
-        print("Nenhum evento cadastrado.")
-        input("Pressione ENTER para continuar... ")
-        return
-    
-    print("Eventos disponíveis:")
-    for i in range(len(eventos)):
-        ev = eventos[i]
-        print(f"{i+1}. ID: {ev[0]} | Nome: {ev[1]} | Data: {ev[3]} | Local: {ev[4]} | Orçamento: R$ {ev[5]}")
-
-    try:
-        escolha = int(input("Número do evento a editar: "))
-        if escolha <= 0 or escolha >= len(eventos):
-            print("Número inválido.")
-            input("Pressione ENTER para continuar... ")
-            return
-    except ValueError:
-        show_error()
-        return
-
-    evento = eventos[escolha - 1]
-
-    print("aperte enter para manter do mesmo jeito.")
-
-    novo_nome = input(f"Nome atual: {evento[1]}\nNovo nome: ").strip()
-    if novo_nome:
-        evento[1] = novo_nome
-
-    try:
-        nova_data = input(f"Data atual: {evento[3]}\nNova data (dd/mm/aaaa): ").strip()
-        if nova_data:
-            datetime.strptime(nova_data, "%d/%m/%Y")
-            evento[3] = nova_data
-
-        novo_local = input(f"Local atual: {evento[4]}\nNovo local: ").strip()
-        if novo_local:
-            evento[4] = novo_local
-
-        novo_orcamento = input(f"Orçamento atual: R$ {evento[5]}\nNovo orçamento: R$ ").strip()
-        if novo_orcamento:
-            evento[5] = float(novo_orcamento)
-
-    except (ValueError, TypeError):
-        show_error()
-        return
-
-    colunas = open("database/events.txt", "w", encoding="utf-8")
-    for ev in eventos:
-        linha = f"{ev[0]},{ev[1]},{ev[2]},{ev[3]},{ev[4]},{ev[5]},{ev[6]}"
-        colunas.write(linha + "\n")
-    colunas.close()
-    print("Evento atualizado :O")
-    input("Pressione ENTER para continuar... ")
+    show_message("Evento excluido com sucesso")

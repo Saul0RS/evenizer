@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 import random
 import os
 
@@ -9,13 +8,6 @@ def clear():
 
     else:
         os.system("clear")
-
-
-def wait(wait_time):
-    end = datetime.now() + timedelta(seconds=wait_time)
-
-    while datetime.now() < end:
-        pass
 
 
 def show_title(title, size=30):
@@ -30,15 +22,23 @@ def show_options(options):
         limit = range(1, len(options) + 1)
         for i, option in enumerate(options):
             print(f"{i + 1} - {option}")
-        opt = int(input("Digite a opcao: "))
+        print('-' * 30)
+        opt = int(input("Digite a opção: "))
 
         while opt not in limit:
-            print("Opcao invalida!")
-            opt = int(input("Digite a opcao: "))
+            print("Escolha inválida. Tente novamente.")
+            opt = int(input("Digite a opção: "))
+        
+        return opt
+    
     except ValueError:
-        show_error()
+        show_message()
         return 0
-    return opt
+    
+    except Exception as e:
+        print("Um erro inesperado ocorreu. Por favor, contate o suporte.")
+        # NOTE: comment in prod
+        # print(f"Erro: {e}")
 
 
 def quit():
@@ -47,13 +47,21 @@ def quit():
 
 
 def gera_id(file):
-    pk = str(random.randint(1, 10**6))
-    file.seek(0) # coloca ponteiro no inicio para ler o arquivo
-    while str(pk) in file.read():
-        pk = str(random.randint(1, 10**6))
-        file.seek(0) # coloca ponteiro no inicio para ler o arquivo
-    return pk
+    id = str(random.randint(1, 10**6))
+    
+    while str(id) in file.read():
+        id = str(random.randint(1, 10**6))
+    return id
 
-def show_error():
-    print("Valor invalido, tente novamente")
+
+def show_message(message="Valor inválido. Tente novamente."):
+    print(message)
     input("Pressione ENTER para continuar... ")
+
+
+def help():
+    show_title("SUPORTE")
+    print("WhatsApp: +55 99 99999-9999")
+    print("Email: suporte@evenizer.com")
+    print("Instagram: @evenizer")
+    input("Aperte ENTER para voltar...")
