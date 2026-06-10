@@ -21,7 +21,7 @@ def initial_menu():
 
 def events_menu(email):
         show_title("Eventos")
-        opcao = show_options(["Novo Evento", "Nova Tarefa", "Meus Eventos","Apagar Evento","Atulizar Tarefa" ,"Sair"])
+        opcao = show_options(["Novo Evento", "Nova Tarefa", "Meus Eventos","Atualizar Evento", "Excluir Evento", "Excluir Tarefa", "Sair"])
         
         clear()
         if opcao == 1:
@@ -33,14 +33,17 @@ def events_menu(email):
 
         elif opcao == 3:
             list_event(email)
-        
+
         elif opcao == 4:
-            delete_event(email)
-
+            update_event(email)
+        
         elif opcao == 5:
-            update_tafera()
-
+            delete_event(email)
+        
         elif opcao == 6:
+            delete_atividade(email)
+
+        elif opcao == 7:
             quit()
 
 
